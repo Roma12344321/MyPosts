@@ -15,6 +15,6 @@ data class UserFromDb(
     @Ignore
     constructor(userName: String,email: String,password: String) : this(ID,userName,email,password)
     companion object{
-        private const val ID = 23
+        const val ID = 23
     }
 }

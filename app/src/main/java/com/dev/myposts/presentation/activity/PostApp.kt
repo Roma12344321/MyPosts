@@ -1,4 +1,4 @@
-package com.dev.myposts.presentation
+package com.dev.myposts.presentation.activity
 
 import android.app.Application
 import com.dev.myposts.di.DaggerApplicationComponent

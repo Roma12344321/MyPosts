@@ -13,4 +13,7 @@ interface UserFromDbDao {
 
     @Query("DELETE FROM usersFromDb")
     suspend fun deleteAllUser()
+
+    @Query("SELECT * FROM usersFromDb WHERE id =:id")
+    suspend fun getUserFromDbById(id:Int) : UserFromDb?
 }

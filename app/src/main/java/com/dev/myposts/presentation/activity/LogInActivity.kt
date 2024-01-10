@@ -1,10 +1,12 @@
-package com.dev.myposts.presentation
+package com.dev.myposts.presentation.activity
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.dev.myposts.databinding.ActivityLogInBinding
+import com.dev.myposts.presentation.viewModel.MainViewModel
+import com.dev.myposts.presentation.viewModel.ViewModelFactory
 import javax.inject.Inject
 
 class LogInActivity : AppCompatActivity() {
@@ -27,6 +29,7 @@ class LogInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         component.inject(this)
         setContentView(binding.root)
+        viewModel.reLogin()
         viewModel.isLoggedIn.observe(this) {
             if (it) {
                 val intent = Intent(this, MainActivity::class.java)
@@ -38,6 +41,10 @@ class LogInActivity : AppCompatActivity() {
             val name = binding.editTextUserName.text.toString()
             val password = binding.editTextTextPassword.text.toString()
             viewModel.logIn(name,password)
+        }
+        binding.textViewSighUp.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
         }
     }
 }

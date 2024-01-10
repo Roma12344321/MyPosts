@@ -1,4 +1,4 @@
-package com.dev.myposts.presentation
+package com.dev.myposts.presentation.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

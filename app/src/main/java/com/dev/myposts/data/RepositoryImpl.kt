@@ -1,9 +1,7 @@
 package com.dev.myposts.data
 
-import android.util.Log
 import com.dev.myposts.domain.Post
 import com.dev.myposts.domain.Repository
-import java.lang.Exception
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
@@ -12,19 +10,40 @@ class RepositoryImpl @Inject constructor(
     private val userFromDbDao: UserFromDbDao
 ) : Repository {
 
+    override suspend fun register(username: String, email: String, password: String): Boolean {
+        apiService.register(RegistrationData(username, email, password))
+        return true
+    }
+
     override suspend fun logIn(userName: String, password: String): Boolean {
-        try {
+        return try {
             val userDto = apiService.getUserDtoByName(userName)
-            if (userDto.password == password){
+            if (userDto.password == password) {
+                userFromDbDao.deleteAllUser()
                 userFromDbDao.addUser(mapper.mapUserDtoToUserDbModel(userDto))
-                return true
+                true
+            } else {
+                false
             }
-            else {
-                return false
-            }
-        } catch (_:Exception) {
-            return false
+        } catch (_: Exception) {
+            false
         }
+    }
+
+    override suspend fun reLogin(): Boolean {
+        val userFromDb = userFromDbDao.getUserFromDbById(UserFromDb.ID)
+        return userFromDb != null
+    }
+
+    override suspend fun logOut(): Boolean {
+        userFromDbDao.deleteAllUser()
+        return true
+    }
+
+    override suspend fun createPost(title: String, content: String): Boolean {
+        val userFromDb = userFromDbDao.getUserFromDbById(UserFromDb.ID)
+        apiService.createPost(CreatePostData(title,content, userFromDb!!.userName))
+        return true
     }
 
     override suspend fun getAllPosts(): List<Post> {

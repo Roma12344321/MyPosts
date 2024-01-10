@@ -3,13 +3,17 @@ package com.dev.myposts.data
 import com.dev.myposts.domain.Post
 import javax.inject.Inject
 
-class Mapper @Inject constructor() {
+class Mapper @Inject constructor(
+    private val userFromDbDao: UserFromDbDao
+) {
 
-    fun mapPostDtoToEntity(postDto: PostDto): Post {
+    suspend fun mapPostDtoToEntity(postDto: PostDto): Post {
         return Post(
+            id = postDto.id,
             userName = postDto.userDetails.username,
             title = postDto.title,
-            content = postDto.content
+            content = postDto.content,
+            isItMy = userFromDbDao.getUserFromDbById(UserFromDb.ID)?.userName == postDto.userDetails.username
         )
     }
     fun mapUserDtoToUserDbModel(userDto: UserDto) : UserFromDb {
