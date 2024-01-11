@@ -75,7 +75,11 @@ class MainViewModel @Inject constructor(
 
     fun register(userName: String, email: String, password: String) {
         scope.launch {
-            _isRegistered.value = registerUseCase.register(userName, email, password)
+            try {
+                _isRegistered.value = registerUseCase.register(userName, email, password)
+            } catch (_: Exception) {
+                _isRegistered.value = false
+            }
         }
     }
 

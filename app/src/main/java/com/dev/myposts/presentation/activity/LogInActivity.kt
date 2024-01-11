@@ -39,7 +39,7 @@ class LogInActivity : AppCompatActivity() {
         }
         binding.buttonLogIn.setOnClickListener {
             val name = binding.editTextUserName.text.toString()
-            val password = binding.editTextTextPassword.text.toString()
+            val password = binding.editTextPassword.text.toString()
             viewModel.logIn(name,password)
         }
         binding.textViewSighUp.setOnClickListener {
