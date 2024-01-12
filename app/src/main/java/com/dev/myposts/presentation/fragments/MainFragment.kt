@@ -11,9 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import com.dev.myposts.R
 import com.dev.myposts.databinding.FragmentMainBinding
 import com.dev.myposts.presentation.activity.LogInActivity
-import com.dev.myposts.presentation.viewModel.MainViewModel
+import com.dev.myposts.presentation.viewModel.LogInViewModel
 import com.dev.myposts.presentation.adapter.PostAdapter
 import com.dev.myposts.presentation.activity.PostApp
+import com.dev.myposts.presentation.viewModel.MainViewModel
 import com.dev.myposts.presentation.viewModel.ViewModelFactory
 import java.lang.RuntimeException
 import javax.inject.Inject

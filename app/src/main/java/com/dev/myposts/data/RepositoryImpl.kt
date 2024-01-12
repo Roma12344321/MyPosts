@@ -31,8 +31,8 @@ class RepositoryImpl @Inject constructor(
     }
 
     override suspend fun reLogin(): Boolean {
-        val userFromDb = userFromDbDao.getUserFromDbById(UserFromDb.ID)
-        return userFromDb != null
+        val userFromDb = userFromDbDao.getUserFromDbById(UserFromDb.ID) ?: return false
+        return userFromDb.userName == apiService.getUserDtoByName(userFromDb.userName).userName
     }
 
     override suspend fun logOut(): Boolean {
@@ -42,7 +42,7 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun createPost(title: String, content: String): Boolean {
         val userFromDb = userFromDbDao.getUserFromDbById(UserFromDb.ID)
-        apiService.createPost(CreatePostData(title,content, userFromDb!!.userName))
+        apiService.createPost(CreatePostData(title, content, userFromDb!!.userName))
         return true
     }
 

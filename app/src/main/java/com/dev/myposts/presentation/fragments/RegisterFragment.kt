@@ -5,32 +5,31 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.dev.myposts.databinding.FragmentCreatePostBinding
+import com.dev.myposts.databinding.FragmentRegisterBinding
 import com.dev.myposts.presentation.activity.PostApp
-import com.dev.myposts.presentation.viewModel.CreatePostViewModel
 import com.dev.myposts.presentation.viewModel.LogInViewModel
-import com.dev.myposts.presentation.viewModel.MainViewModel
+import com.dev.myposts.presentation.viewModel.RegistrationViewModel
 import com.dev.myposts.presentation.viewModel.ViewModelFactory
-import java.lang.RuntimeException
 import javax.inject.Inject
 
-class CreatePostFragment : Fragment() {
+class RegisterFragment : Fragment() {
 
-    private var _binding: FragmentCreatePostBinding? = null
-    private val binding: FragmentCreatePostBinding
-        get() = _binding ?: throw RuntimeException("FragmentCreatePostBinding is null")
+    private var _binding: FragmentRegisterBinding? = null
+    private val binding: FragmentRegisterBinding
+        get() = _binding ?: throw RuntimeException("FragmentRegisterBinding is null")
+
+    private val component by lazy {
+        (requireActivity().application as PostApp).component
+    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     private val viewModel by lazy {
-        ViewModelProvider(this,viewModelFactory)[CreatePostViewModel::class.java]
-    }
-
-    private val component by lazy {
-        (requireActivity().application as PostApp).component
+        ViewModelProvider(this, viewModelFactory)[RegistrationViewModel::class.java]
     }
 
     override fun onAttach(context: Context) {
@@ -43,21 +42,23 @@ class CreatePostFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCreatePostBinding.inflate(inflater, container, false)
+        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.isPostCreated.observe(viewLifecycleOwner) {
+        viewModel.isRegistered.observe(viewLifecycleOwner) {
             if (it) {
-                requireActivity().onBackPressed()
+                Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
+                requireActivity().supportFragmentManager.popBackStack()
             }
         }
-        binding.buttonCreate.setOnClickListener {
-            viewModel.createPost(
-                binding.editTextTitle.text.toString(),
-                binding.editTextContent.text.toString()
+        binding.buttonRegister.setOnClickListener {
+            viewModel.register(
+                binding.editTextUserName.text.toString(),
+                binding.editTextEmail.text.toString(),
+                binding.editTextPassword.text.toString()
             )
         }
     }
@@ -69,7 +70,7 @@ class CreatePostFragment : Fragment() {
 
     companion object {
         fun newInstance(): Fragment {
-            return CreatePostFragment()
+            return RegisterFragment()
         }
     }
 }

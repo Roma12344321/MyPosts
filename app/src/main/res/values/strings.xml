@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">My Posts</string>
+    <string name="logInUserName">Введите имя пользователя:</string>
+    <string name="logInPassword">Введите пароль:</string>
+    <string name="logIn">Войти</string>
+    <string name="signUp">Зарегистрироваться</string>
+    <string name="registration">Регистрация</string>
 </resources>
