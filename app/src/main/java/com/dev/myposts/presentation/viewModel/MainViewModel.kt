@@ -28,10 +28,16 @@ class MainViewModel @Inject constructor(
     val posts: LiveData<List<Post>>
         get() = _posts
 
+    private val _showProgressBar = MutableLiveData<Boolean>()
+    val showProgressBar: LiveData<Boolean>
+        get() = _showProgressBar
+
 
     fun getAllPosts() {
         scope.launch {
+            _showProgressBar.value = true
             _posts.value = getAllPostsUseCase.getAllPost()
+            _showProgressBar.value = false
         }
     }
 

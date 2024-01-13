@@ -22,4 +22,9 @@ interface ApiService {
     suspend fun createPost(
         @Body createPostData: CreatePostData
     ) : SuccessData
+
+    @POST("api/v1/postlist/delete/")
+    suspend fun deletePost(
+        @Body deletePostData : DeletePostData
+    ) : SuccessData
 }

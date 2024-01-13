@@ -41,7 +41,11 @@ class LogInViewModel @Inject constructor(
 
     fun logIn(userName: String, password: String) {
         scope.launch {
-            _isLoggedIn.value = logInUseCase.logIn(userName, password)
+            try {
+                _isLoggedIn.value = logInUseCase.logIn(userName, password)
+            } catch (_: Exception) {
+                _isLoggedIn.value = false
+            }
         }
     }
 

@@ -9,9 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.dev.myposts.R
-import com.dev.myposts.databinding.FragmentMainBinding
+import com.dev.myposts.databinding.FragmentHomeBinding
 import com.dev.myposts.presentation.activity.LogInActivity
-import com.dev.myposts.presentation.viewModel.LogInViewModel
 import com.dev.myposts.presentation.adapter.PostAdapter
 import com.dev.myposts.presentation.activity.PostApp
 import com.dev.myposts.presentation.viewModel.MainViewModel
@@ -19,10 +18,10 @@ import com.dev.myposts.presentation.viewModel.ViewModelFactory
 import java.lang.RuntimeException
 import javax.inject.Inject
 
-class MainFragment : Fragment() {
+class HomeFragment : Fragment() {
 
-    private var _binding : FragmentMainBinding? = null
-    private val binding : FragmentMainBinding
+    private var _binding : FragmentHomeBinding? = null
+    private val binding : FragmentHomeBinding
         get() = _binding ?: throw RuntimeException("FragmentMainBinding is null")
 
     @Inject
@@ -47,13 +46,21 @@ class MainFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentMainBinding.inflate(inflater,container,false)
+        _binding = FragmentHomeBinding.inflate(inflater,container,false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvPosts.adapter = adapter
+        viewModel.showProgressBar.observe(viewLifecycleOwner) {
+            if (it) {
+                binding.progressBarLoadingPost.visibility = View.VISIBLE
+            }
+            else {
+                binding.progressBarLoadingPost.visibility = View.GONE
+            }
+        }
         viewModel.posts.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 binding.textViewEmpty.visibility = View.VISIBLE
@@ -93,5 +100,11 @@ class MainFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        fun newInstance() : Fragment {
+            return HomeFragment()
+        }
     }
 }

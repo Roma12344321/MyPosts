@@ -16,16 +16,12 @@ class RepositoryImpl @Inject constructor(
     }
 
     override suspend fun logIn(userName: String, password: String): Boolean {
-        return try {
-            val userDto = apiService.getUserDtoByName(userName)
-            if (userDto.password == password) {
-                userFromDbDao.deleteAllUser()
-                userFromDbDao.addUser(mapper.mapUserDtoToUserDbModel(userDto))
-                true
-            } else {
-                false
-            }
-        } catch (_: Exception) {
+        val userDto = apiService.getUserDtoByName(userName)
+        return if (userDto.password == password) {
+            userFromDbDao.deleteAllUser()
+            userFromDbDao.addUser(mapper.mapUserDtoToUserDbModel(userDto))
+            true
+        } else {
             false
         }
     }
