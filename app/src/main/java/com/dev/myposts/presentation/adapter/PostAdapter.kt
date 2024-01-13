@@ -34,6 +34,7 @@ class PostAdapter : ListAdapter<Post, PostViewHolder>(PostItemDiffUtil()) {
         }
     }
 
+
     companion object {
         private const val MY_POST = 1
         private const val IS_NOT_MY_POST = 2

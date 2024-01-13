@@ -5,11 +5,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.dev.myposts.R
 import com.dev.myposts.databinding.FragmentPersonBinding
 import com.dev.myposts.presentation.activity.PostApp
+import com.dev.myposts.presentation.adapter.MyPostAdapter
 import com.dev.myposts.presentation.adapter.PostAdapter
 import com.dev.myposts.presentation.viewModel.MainViewModel
 import com.dev.myposts.presentation.viewModel.ViewModelFactory
@@ -33,7 +35,7 @@ class PersonFragment : Fragment() {
     }
 
     private val adapter by lazy {
-        PostAdapter()
+        MyPostAdapter()
     }
 
     override fun onAttach(context: Context) {
@@ -56,7 +58,17 @@ class PersonFragment : Fragment() {
         viewModel.posts.observe(viewLifecycleOwner) {
             adapter.submitList(it.filter { it.isItMy })
         }
-
+        viewModel.isPostDeleted.observe(viewLifecycleOwner) {
+            if (it) {
+                viewModel.getAllPosts()
+                Toast.makeText(requireContext(),"SUCCESS",Toast.LENGTH_SHORT).show()
+            }
+        }
+        adapter.onItemClickListener = object : MyPostAdapter.OnItemClickListener {
+            override fun onItemClick(id: Int) {
+                viewModel.deletePost(id)
+            }
+        }
         viewModel.getAllPosts()
     }
 

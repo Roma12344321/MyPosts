@@ -47,4 +47,9 @@ class RepositoryImpl @Inject constructor(
             mapper.mapPostDtoToEntity(it)
         }
     }
+
+    override suspend fun deletePost(id: Int): Boolean {
+        apiService.deletePost(DeletePostData(id))
+        return true
+    }
 }
