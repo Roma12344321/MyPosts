@@ -6,20 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".presentation.activity.MainActivity">
 
-    <TextView
+    <Button
         android:id="@+id/textViewLogOut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Log out"
         android:layout_marginTop="8dp"
+        android:backgroundTint="@android:color/holo_red_light"
         android:layout_marginEnd="8dp"
-        android:textColor="@android:color/holo_red_light"
+        android:textColor="@color/white"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="74dp"
+        android:layout_marginTop="60dp"
         android:id="@+id/rvPosts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,19 +29,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewLogOut"
         tools:listitem="@layout/post_item"/>
-
-    <TextView
-        android:id="@+id/textViewCreatePost"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Create post"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/textViewLogOut"
-        app:layout_constraintEnd_toStartOf="@+id/textViewLogOut"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textViewEmpty"
@@ -63,4 +51,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,13 +15,14 @@ import com.dev.myposts.presentation.adapter.PostAdapter
 import com.dev.myposts.presentation.activity.PostApp
 import com.dev.myposts.presentation.viewModel.MainViewModel
 import com.dev.myposts.presentation.viewModel.ViewModelFactory
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.lang.RuntimeException
 import javax.inject.Inject
 
 class HomeFragment : Fragment() {
 
-    private var _binding : FragmentHomeBinding? = null
-    private val binding : FragmentHomeBinding
+    private var _binding: FragmentHomeBinding? = null
+    private val binding: FragmentHomeBinding
         get() = _binding ?: throw RuntimeException("FragmentMainBinding is null")
 
     @Inject
@@ -46,7 +47,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(inflater,container,false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -56,16 +57,14 @@ class HomeFragment : Fragment() {
         viewModel.showProgressBar.observe(viewLifecycleOwner) {
             if (it) {
                 binding.progressBarLoadingPost.visibility = View.VISIBLE
-            }
-            else {
+            } else {
                 binding.progressBarLoadingPost.visibility = View.GONE
             }
         }
         viewModel.posts.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 binding.textViewEmpty.visibility = View.VISIBLE
-            }
-            else {
+            } else {
                 binding.textViewEmpty.visibility = View.GONE
             }
             adapter.submitList(it)
@@ -80,13 +79,17 @@ class HomeFragment : Fragment() {
         binding.textViewLogOut.setOnClickListener {
             viewModel.logOut()
         }
-        binding.textViewCreatePost.setOnClickListener {
+        binding.floatingActionButton.setOnClickListener {
             launchCreatePostFragment()
+            requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility =
+                View.GONE
         }
     }
 
     override fun onResume() {
         super.onResume()
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottom_navigation).visibility =
+            View.VISIBLE
         viewModel.getAllPosts()
     }
 
@@ -103,7 +106,7 @@ class HomeFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance() : Fragment {
+        fun newInstance(): Fragment {
             return HomeFragment()
         }
     }

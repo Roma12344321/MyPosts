@@ -51,7 +51,7 @@ class CreatePostFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewModel.isPostCreated.observe(viewLifecycleOwner) {
             if (it) {
-                requireActivity().onBackPressed()
+                activity?.supportFragmentManager?.popBackStack()
             }
         }
         binding.buttonCreate.setOnClickListener {

@@ -1,5 +1,6 @@
 package com.dev.myposts.data
 
+import android.content.SharedPreferences
 import com.dev.myposts.domain.Post
 import com.dev.myposts.domain.Repository
 import javax.inject.Inject
@@ -7,7 +8,8 @@ import javax.inject.Inject
 class RepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val mapper: Mapper,
-    private val userFromDbDao: UserFromDbDao
+    private val userFromDbDao: UserFromDbDao,
+    private val sharedPreferences: SharedPreferences
 ) : Repository {
 
     override suspend fun register(username: String, email: String, password: String): Boolean {
